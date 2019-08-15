@@ -12,8 +12,9 @@
       'username' => [
         'required' => true,
         'maxlength' => 20,
-        'minlength' => 3      
-      ],
+        'minlength' => 3,
+        'alnum' => true 
+      ], 
       'email' => [
         'required' => true,
         'maxlength' => 255,
@@ -22,12 +23,15 @@
       'password' => [
         'required' => true,
         'minlength' => 6   
+      ],
+      'password_again' => [
+        'match' => 'password'
       ]
     ]);
 
     //calling all on errors, referring to errors method in ErrorHandler
     if($validation->fails()){
-      print_r($validation->errors()->all());
+     echo '<pre>', print_r($validation->errors()->all()) , '</pre>';
     }
   }
 
@@ -59,6 +63,9 @@
     </div>
     <div>
       Password: <input type="password" name="password">
+    </div>
+    <div>
+      Repeat Password: <input type="password" name="password_again">
     </div>
     <div>
        <input type="submit" >

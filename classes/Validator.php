@@ -2,14 +2,17 @@
   class Validator{
 
     protected $errorHandler;
-    protected $rules = ['required', 'minlength', 'maxlength', 'email'];
+    protected $items;  //to store the items here [Lesson 3/4]
+
+    protected $rules = ['required', 'minlength', 'maxlength', 'email', 'alnum', 'match'];
 
     public $messages = [
       'required' => 'The :field field is required',
       'minlength' => 'The :field field must be a minimum of :satisfier length',
       'maxlength' => 'The :field field must be a maximum of :satisfier length',
       'email' => 'That is not a valid email address',
-
+      'alnum' => 'The :field field is must be alphanumeric',
+      'match' => 'The :field field must match the :satisfier field'
     ];
 
     public function __construct(ErrorHandler $errorHandler){
@@ -18,7 +21,9 @@
 
     // $rules came from protected variable
 
-    public function check($items, $rules){
+    public function check($items, $rules){  
+      
+      $this->items = $items; //reference to line 5
       foreach($items as $item => $value){
 
        if(in_array($item, array_keys($rules))){
@@ -83,5 +88,16 @@
 
     protected function email($field, $value, $satisfier){
       return filter_var($value, FILTER_VALIDATE_EMAIL);
+    }
+
+    protected function alnum($field, $value, $satisfier){
+      return ctype_alnum($value);
+    }
+
+    protected function match($field, $value, $satisfier){
+      //check if password matches
+      // echo $satisfier, ' - ', $value; 
+     
+      return $value === $this->items[$satisfier];
     }
   }
