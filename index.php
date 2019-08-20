@@ -1,12 +1,16 @@
 <?php
   require_once 'classes/ErrorHandler.php';
+  require_once 'classes/Database.php';
   require_once 'classes/Validator.php';
 
+
+  $db = new Database;
   $errorHandler = new ErrorHandler;
 
+  var_dump($db->table('users')->exists(['username' => 'ralph']));
 
   if(!empty($_POST)){
-    $validator = new Validator($errorHandler);
+    $validator = new Validator($db, $errorHandler);
 
     $validation = $validator->check($_POST, [
       'username' => [

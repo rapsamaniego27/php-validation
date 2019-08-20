@@ -1,6 +1,7 @@
 <?php
   class Validator{
-
+    
+    protected $db;
     protected $errorHandler;
     protected $items;  //to store the items here [Lesson 3/4]
 
@@ -15,7 +16,7 @@
       'match' => 'The :field field must match the :satisfier field'
     ];
 
-    public function __construct(ErrorHandler $errorHandler){
+    public function __construct(Database $db, ErrorHandler $errorHandler){
       $this->errorHandler = $errorHandler;
     }
 
